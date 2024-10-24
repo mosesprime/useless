@@ -12,8 +12,12 @@ func main() {
     addr := flag.String("a", "127.0.0.1", "local server host")
     flag.Parse()
 
-    http.Handle("/", http.FileServer(http.Dir(*dir)))
+    fs := http.FileServer(http.Dir(*dir))
+    http.HandleFunc("/{id}", func(w http.ResponseWriter, r *http.Request) {
+        log.Printf("hit %s\n", r.URL.Path)
+        fs.ServeHTTP(w, r)
+    })
 
-    log.Printf("Serving %s/ at %s:%s...\n", *dir, *addr, *port)
+    log.Printf("Serving %s at %s:%s ...\n", *dir, *addr, *port)
     log.Fatal(http.ListenAndServe(*addr+":"+*port, nil))
 }
