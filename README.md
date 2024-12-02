@@ -1,17 +1,20 @@
 # useless
 Various tools and scripts.
 
-## Warning
-Use at your own risk!
+> ## Warning
+> Use at your own risk!
 
 ## Static Serve
-A simple http static file server.
+A simple http static file server. Not for production use!
 ```sh
 # install locally
 go install
 
 static-serve <...>
 ```
+
+## Ziiip
+Nasty-gram builder. Use responsibly!
 
 ## zfs-inplace-rebalance
 Bash script to rebalance pool data. [repo](https://github.com/markusressel/zfs-inplace-rebalancing)
