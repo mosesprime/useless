@@ -12,12 +12,22 @@ import (
 
 func main() {
     port := flag.String("p", "2222", "honeypot port")
+    interval := flag.Uint("i", 2000, "interval in milliseconds")
+    max_clients := flag.Uint("m", 20, "maxium number of clients")
+    
     flag.Parse()
+
+    if *interval == 0 {
+        panic("interval can not be zero")
+    }
+    if *max_clients == 0 {
+        panic("invalid max_clients")
+    }
 
     pit := SSHTarPit{
         clients: make(map[string]sshTarClient),
-        interval: 2 * time.Second,
-        max_clients: 10,
+        interval: time.Duration(*interval) * time.Millisecond,
+        max_clients: *max_clients,
     }
     fmt.Println(pit.Start(*port))
 }
@@ -25,11 +35,11 @@ func main() {
 type SSHTarPit struct {
     clients map[string]sshTarClient
     interval time.Duration
-    max_clients int
+    max_clients uint
 }
 
 func (p *SSHTarPit) Start(port string) error {
-    listen, err := net.Listen("tcp", "127.0.0.1:"+port)   
+    listen, err := net.Listen("tcp", "0.0.0.0:"+port)   
     if err != nil {
         return err
     }
@@ -84,7 +94,7 @@ func (p *SSHTarPit) handleConn(conn net.Conn) error {
     }
     fmt.Printf("client connected from %s\n", client.remoteAddr)
     p.clients[client.remoteAddr] = client
-    if len(p.clients) >= p.max_clients {
+    if uint(len(p.clients)) >= p.max_clients {
         return errors.New("exceeded max_clients") 
     }
     return nil
