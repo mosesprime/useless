@@ -13,6 +13,10 @@ go install
 static-serve <...>
 ```
 
+## Honeypot
+Counter those sticky fingers. Use responsibly!
+- ssh tarpit
+
 ## Ziiip
 Nasty-gram builder. Use responsibly!
 
