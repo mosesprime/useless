@@ -6,19 +6,9 @@ Various tools and scripts.
 
 ## Static Serve
 A simple http static file server. Not for production use!
-```sh
-# install locally
-go install
 
-static-serve <...>
-```
-
-## Honeypot
+## SSH Tarpit
 Counter those sticky fingers. Use responsibly!
-- ssh tarpit
-
-## Ziiip
-Nasty-gram builder. Use responsibly!
 
 ## zfs-inplace-rebalance
 Bash script to rebalance pool data. [repo](https://github.com/markusressel/zfs-inplace-rebalancing)

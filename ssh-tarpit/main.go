@@ -12,8 +12,8 @@ import (
 
 func main() {
     port := flag.String("p", "2222", "honeypot port")
-    interval := flag.Uint("i", 2000, "interval in milliseconds")
-    max_clients := flag.Uint("m", 20, "maxium number of clients")
+    interval := flag.Uint("i", 2000, "interval in milliseconds") // TODO: add 0 interval = no data option
+    max_clients := flag.Uint("m", 20, "maxium number of clients") // TODO: add 0 max_clients = no max option
     
     flag.Parse()
 
@@ -24,21 +24,21 @@ func main() {
         panic("invalid max_clients")
     }
 
-    pit := SSHTarPit{
+    pit := sshTarPit{
         clients: make(map[string]sshTarClient),
         interval: time.Duration(*interval) * time.Millisecond,
         max_clients: *max_clients,
     }
-    fmt.Println(pit.Start(*port))
+    fmt.Println(pit.start(*port))
 }
 
-type SSHTarPit struct {
+type sshTarPit struct {
     clients map[string]sshTarClient
     interval time.Duration
     max_clients uint
 }
 
-func (p *SSHTarPit) Start(port string) error {
+func (p *sshTarPit) start(port string) error {
     listen, err := net.Listen("tcp", "0.0.0.0:"+port)   
     if err != nil {
         return err
@@ -68,7 +68,7 @@ func (p *SSHTarPit) Start(port string) error {
     }
 }
 
-func (p *SSHTarPit) poll() {
+func (p *sshTarPit) poll() {
     chars := "abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ\n" // TODO: expand char set?
     var buffer bytes.Buffer
     for i := 0; i < 100; i++ { // TODO: add length variation
@@ -86,7 +86,7 @@ func (p *SSHTarPit) poll() {
     }
 }
 
-func (p *SSHTarPit) handleConn(conn net.Conn) error {
+func (p *sshTarPit) handleConn(conn net.Conn) error {
     client := sshTarClient{
         conn: conn,
         start_time: time.Now(),
