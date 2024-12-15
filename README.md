@@ -13,6 +13,9 @@ Counter those sticky fingers. Use responsibly!
 ## Artifact Serve
 Upload and download small files via curl.
 
+## Re-Run
+Execute simple command when a watched file changes.
+
 ## zfs-inplace-rebalance
 Bash script to rebalance pool data. [repo](https://github.com/markusressel/zfs-inplace-rebalancing)
 
