@@ -44,7 +44,6 @@ func run(path string, args []string) {
             }
             initStat = stat
             cmd = startProcess(args)
-            continue
         }
         time.Sleep(1 * time.Second)
     }
@@ -73,7 +72,7 @@ func stopProcess(cmd *exec.Cmd) error {
         return err
     }
     output("process terminated: %v\n", cmd.Process.Pid)
-    return cmd.Wait()
+    return nil
 }
 
 func output(f string, args ...any) {
